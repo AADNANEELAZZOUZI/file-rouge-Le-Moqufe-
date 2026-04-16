@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\BookingController;
+use App\Http\Controllers\Api\PaymentController;
 
 
 
@@ -39,4 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/artisan-bookings', [BookingController::class,'artisanBookings']);
     Route::put('/bookings/{booking}/accept', [BookingController::class,'accept']);
     Route::put('/bookings/{booking}/reject', [BookingController::class,'reject']);
+
+    Route::post('/bookings/{booking}/pay',[PaymentController::class,'pay']);
+    Route::post('/bookings/{booking}/release',[PaymentController::class,'release']);
 });
