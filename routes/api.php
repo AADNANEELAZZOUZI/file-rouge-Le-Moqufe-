@@ -8,24 +8,26 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\BookingController;
 use App\Http\Controllers\Api\PaymentController;
+use App\Http\Controllers\Api\ReviewController;
 
 
 
 
-Route::get('/artisans', [UserController::class,'artisans']);
-Route::get('/artisans/{id}', [UserController::class,'show']);
+Route::get('/artisans', [UserController::class, 'artisans']);
+Route::get('/artisans/{id}', [UserController::class, 'show']);
 
 Route::apiResource('categories', CategoryController::class);
 
-Route::post('users/{user}/assign-categories',
-    [UserController::class,'assignCategories']
+Route::post(
+    'users/{user}/assign-categories',
+    [UserController::class, 'assignCategories']
 );
 
 Route::apiResource('roles', RoleController::class);
 Route::apiResource('permissions', PermissionController::class);
 
-Route::post('roles/{role}/assign-permission', [RoleController::class,'assignPermission']);
-Route::post('users/{user}/assign-role', [UserController::class,'assignRole']);
+Route::post('roles/{role}/assign-permission', [RoleController::class, 'assignPermission']);
+Route::post('users/{user}/assign-role', [UserController::class, 'assignRole']);
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -35,12 +37,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::put('/update-profile', [AuthController::class, 'updateProfile']);
 
-    Route::post('/bookings', [BookingController::class,'store']);
-    Route::get('/my-bookings', [BookingController::class,'myBookings']);
-    Route::get('/artisan-bookings', [BookingController::class,'artisanBookings']);
-    Route::put('/bookings/{booking}/accept', [BookingController::class,'accept']);
-    Route::put('/bookings/{booking}/reject', [BookingController::class,'reject']);
+    Route::post('/bookings', [BookingController::class, 'store']);
+    Route::get('/my-bookings', [BookingController::class, 'myBookings']);
+    Route::get('/artisan-bookings', [BookingController::class, 'artisanBookings']);
+    Route::put('/bookings/{booking}/accept', [BookingController::class, 'accept']);
+    Route::put('/bookings/{booking}/reject', [BookingController::class, 'reject']);
 
-    Route::post('/bookings/{booking}/pay',[PaymentController::class,'pay']);
-    Route::post('/bookings/{booking}/release',[PaymentController::class,'release']);
+    Route::post('/bookings/{booking}/pay', [PaymentController::class, 'pay']);
+    Route::post('/bookings/{booking}/release', [PaymentController::class, 'release']);
+    Route::post('/bookings/{booking}/review', [ReviewController::class, 'store']);
 });
+
+Route::get('/artisans/{id}/reviews',[ReviewController::class,'artisanReviews']);
+Route::get('/artisans/{id}/rating',[ReviewController::class,'artisanRating']);
