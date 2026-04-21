@@ -11,17 +11,24 @@ class UserController extends Controller
 
     public function artisans(Request $request)
     {
-        $query = User::whereHas('roles', fn($q) => $q->where('name', 'artisan'));
+        $query = User::whereHas('roles', function ($q) {
+            $q->where('name', 'artisan');
+        })->with('categories');
 
-        if ($request->category) {
-            $query->whereHas('categories', fn($q) => $q->where('categories.id', $request->category));
+        if ($request->search) {
+            $query->where(function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%')
+                    ->orWhere('email', 'like', '%' . $request->search . '%');
+            });
         }
 
-        if ($request->city) {
-            $query->where('city', $request->city);
+        if ($request->category_id) {
+            $query->whereHas('categories', function ($q) use ($request) {
+                $q->where('categories.id', $request->category_id);
+            });
         }
 
-        return $query->with('categories')->get();
+        return response()->json($query->latest()->get());
     }
 
 
@@ -55,5 +62,26 @@ class UserController extends Controller
         $user->categories()->sync($request->categories);
 
         return response()->json(['message' => 'Categories assigned']);
+    }
+    public function search(Request $request)
+    {
+        $query = User::with('categories')
+            ->whereHas('roles', fn($q) => $q->where('name', 'artisan'));
+
+        if ($request->name) {
+            $query->where('name', 'like', '%' . $request->name . '%');
+        }
+
+        if ($request->city) {
+            $query->where('city', 'like', '%' . $request->city . '%');
+        }
+
+        if ($request->service) {
+            $query->whereHas('categories', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->service . '%');
+            });
+        }
+
+        return response()->json($query->get());
     }
 }

@@ -50,3 +50,4 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::get('/artisans/{id}/reviews',[ReviewController::class,'artisanReviews']);
 Route::get('/artisans/{id}/rating',[ReviewController::class,'artisanRating']);
+Route::get('/artisans/search',[UserController::class,'search']);
