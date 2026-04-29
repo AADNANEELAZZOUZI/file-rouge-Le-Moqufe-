@@ -42,6 +42,8 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
+
 
 const email = ref("");
 const password = ref("");
@@ -56,7 +58,7 @@ const submit = async () => {
     console.log("Login Attempt:", { email: email.value, password: password.value });
 
     await new Promise(r => setTimeout(r, 1000))
-
+    
     router.push("/");
 
   } catch (error) {

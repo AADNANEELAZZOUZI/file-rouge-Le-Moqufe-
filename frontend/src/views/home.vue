@@ -47,7 +47,6 @@ onMounted(() => {
 <template>
   <div class="page">
 
-    <!-- Navbar -->
     <nav class="navbar">
       <span class="nav-logo">Le Moqufe</span>
       <div class="nav-links">
@@ -57,7 +56,6 @@ onMounted(() => {
       </div>
     </nav>
 
-    <!-- Hero + Search -->
     <div class="hero">
       <h1 class="hero-title">Trouvez un artisan fiable près de chez vous</h1>
       <p class="hero-sub">Plombiers, électriciens, jardiniers et plus — au Maroc</p>
@@ -82,7 +80,6 @@ onMounted(() => {
         <button class="search-btn" @click="loadArtisans">Rechercher</button>
       </div>
 
-      <!-- Category pills -->
       <div class="cats-row">
         <span
           class="cat-pill"
@@ -99,7 +96,6 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- Artisans grid -->
     <div class="main">
       <div class="section-header">
         <span class="section-title">Artisans disponibles</span>
@@ -124,7 +120,6 @@ onMounted(() => {
             <span v-if="artisan.available !== false" class="badge-avail">Disponible</span>
           </div>
 
-          <!-- Stars -->
           <div class="stars" v-if="artisan.rating">
             <template v-for="i in 5" :key="i">
               <svg class="star" viewBox="0 0 12 12">
@@ -137,7 +132,6 @@ onMounted(() => {
             <span class="rating-text">{{ artisan.rating }} ({{ artisan.reviews_count ?? 0 }} avis)</span>
           </div>
 
-          <!-- Category tags -->
           <div class="cats" v-if="artisan.categories?.length">
             <span
               class="cat-tag"
@@ -172,7 +166,6 @@ onMounted(() => {
   font-family: inherit;
 }
 
-/* ── Navbar ── */
 .navbar {
   background: #fff;
   border-bottom: 0.5px solid rgba(0,0,0,0.08);
@@ -210,7 +203,6 @@ onMounted(() => {
   text-decoration: none;
 }
 
-/* ── Hero ── */
 .hero {
   background: #5D4037;
   padding: 3rem 2rem 2.5rem;
@@ -228,7 +220,6 @@ onMounted(() => {
   margin-bottom: 1.8rem;
 }
 
-/* ── Search bar ── */
 .search-bar {
   display: flex;
   gap: 8px;
@@ -276,7 +267,6 @@ onMounted(() => {
   background: #EFEBE9;
 }
 
-/* ── Category pills ── */
 .cats-row {
   display: flex;
   gap: 8px;
@@ -300,7 +290,6 @@ onMounted(() => {
   color: #5D4037;
 }
 
-/* ── Main content ── */
 .main {
   padding: 2rem;
   max-width: 1000px;
@@ -328,14 +317,12 @@ onMounted(() => {
   color: #9CA3AF;
 }
 
-/* ── Grid ── */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 14px;
 }
 
-/* ── Card ── */
 .card {
   background: #fff;
   border: 0.5px solid rgba(0,0,0,0.08);
@@ -355,7 +342,6 @@ onMounted(() => {
   margin-bottom: 10px;
 }
 
-/* ── Avatar ── */
 .avatar {
   width: 40px;
   height: 40px;
@@ -395,7 +381,6 @@ onMounted(() => {
   white-space: nowrap;
 }
 
-/* ── Stars ── */
 .stars {
   display: flex;
   align-items: center;
@@ -414,7 +399,6 @@ onMounted(() => {
   margin-left: 4px;
 }
 
-/* ── Category tags ── */
 .cats {
   display: flex;
   gap: 5px;
@@ -429,7 +413,6 @@ onMounted(() => {
   color: #712B13;
 }
 
-/* ── Card footer ── */
 .card-footer {
   display: flex;
   justify-content: space-between;
