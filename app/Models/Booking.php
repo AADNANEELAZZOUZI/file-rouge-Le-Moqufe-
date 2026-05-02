@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Booking extends Model
 {
-    protected $fillable = ['client_id', 'artisan_id', 'booking_date', 'description', 'status'];
+    protected $fillable = ['client_id', 'artisan_id', 'booking_date', 'description', 'status',
+    'price'];
     public function client()
     {
         return $this->belongsTo(User::class, 'client_id');

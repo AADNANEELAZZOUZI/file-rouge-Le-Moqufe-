@@ -13,6 +13,7 @@ class BookingController extends Controller
         $request->validate([
             'artisan_id' => 'required|exists:users,id',
             'booking_date' => 'required|date',
+            'price' => 'nullable|numeric|min:0',
             'description' => 'nullable|string'
         ]);
 
@@ -20,6 +21,7 @@ class BookingController extends Controller
             'client_id' => auth()->id(),
             'artisan_id' => $request->artisan_id,
             'booking_date' => $request->booking_date,
+            'price' => $request->price,
             'description' => $request->description,
             'status' => 'pending'
         ]);

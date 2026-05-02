@@ -1,0 +1,6 @@
+vendor/
+node_modules/
+frontend/vendor/
+.env
+storage/
+*.lock

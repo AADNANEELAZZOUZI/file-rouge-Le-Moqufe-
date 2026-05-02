@@ -445,4 +445,4 @@ onMounted(() => {
 .book-btn:hover {
   background: #4E342E;
 }
-</style>
+</style> 
