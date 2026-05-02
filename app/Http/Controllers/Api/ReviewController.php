@@ -40,10 +40,13 @@ class ReviewController extends Controller
     }
     public function artisanReviews($artisanId)
     {
-        return Review::where('artisan_id', $artisanId)
+    return response()->json(
+        Review::where('artisan_id', $artisanId)
             ->with('client')
             ->latest()
-            ->get();
+            ->get()
+    );
+
     }
 
     public function artisanRating($artisanId)
