@@ -29,7 +29,7 @@
             </button>
           </div>
         </div>
-
+        <p v-if="errorMsg" class="error-message">{{ errorMsg }}</p>
         <button type="submit" class="btn-submit" :disabled="isLoading">
           <span v-if="isLoading" class="spinner"></span>
           <span v-else>Sign In</span>
@@ -50,23 +50,40 @@ const password = ref("");
 const isLoading = ref(false);
 const showPassword = ref(false);
 const router = useRouter();
+const errorMsg = ref("")
 
 const submit = async () => {
-  isLoading.value = true;
-  
+  isLoading.value = true
+  errorMsg.value = ""
+
   try {
-    console.log("Login Attempt:", { email: email.value, password: password.value });
+    const res = await axios.post("http://127.0.0.1:8000/api/login", {
+      email: email.value,
+      password: password.value,
+    })
 
-    await new Promise(r => setTimeout(r, 1000))
-    
-    router.push("/");
+    // ✅ Stocker token + user
+    localStorage.setItem("token", res.data.access_token)
+    localStorage.setItem("user", JSON.stringify(res.data.user))
 
-  } catch (error) {
-    alert("Login failed!");
+    // ✅ Rediriger selon le rôle
+    const role = res.data.user.roles?.[0]?.name
+    if (role === "artisan") {
+      router.push("/artisan/dashboard")
+    } else {
+      router.push("/")
+    }
+
+  } catch (err) {
+    if (err.response?.status === 401) {
+      errorMsg.value = "Email ou mot de passe incorrect."
+    } else {
+      errorMsg.value = "Erreur serveur. Réessayez."
+    }
   } finally {
-    isLoading.value = false;
+    isLoading.value = false
   }
-};
+}
 </script>
 
 <style scoped>
@@ -80,6 +97,15 @@ const submit = async () => {
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     overflow: hidden;
     margin: 2rem auto;
+}
+
+.error-msg {
+  color: #993C1D;
+  background: #FAECE7;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  margin-bottom: 1rem;
 }
 
 .login-visual { flex: 1; background-color: #5D4037; display: flex; align-items: center; justify-content: center; color: white; padding: 2rem; }
