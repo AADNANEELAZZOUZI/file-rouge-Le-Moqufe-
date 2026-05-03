@@ -45,13 +45,18 @@ class AuthController extends Controller
             'password' => 'required|string|min:8|confirmed',
             'city' => 'nullable|string|max:255',
             'role' => 'required|in:client,artisan',
-
             'phone' => 'required_if:role,artisan|nullable|string|max:20',
             'bio' => 'nullable|string|max:500',
-
             'categories' => 'array',
             'categories.*' => 'exists:categories,id',
         ]);
+
+        if ($request->role === 'artisan' && empty($request->categories)) {
+            return response()->json([
+                'message' => 'The categories field is required for artisans.',
+                'errors' => ['categories' => ['Veuillez choisir au moins une spécialité.']]
+            ], 422);
+        }
 
         $user = User::create([
             'name' => $request->name,
